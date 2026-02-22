@@ -115,7 +115,6 @@ select {
 
   .terminal-scanlines {
     position: relative;
-    overflow: hidden;
   }
 
   .terminal-scanlines::after {

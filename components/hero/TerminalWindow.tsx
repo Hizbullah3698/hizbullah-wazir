@@ -12,21 +12,17 @@ const TERMINAL_LINES = [
     "> Stack: React · Next.js · TypeScript · Node.js",
 ];
 
-type TerminalHistory = {
+type TerminalEntry = {
     command: string;
     output: string | React.ReactNode;
 };
 
 export default function TerminalWindow() {
     const { displayedLines, isComplete } = useTypewriter(TERMINAL_LINES);
-    const [history, setHistory] = useState<TerminalHistory[]>([]);
+    const [history, setHistory] = useState<TerminalEntry[]>([]);
     const [inputValue, setInputValue] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
-
-    const handleFocus = () => {
-        inputRef.current?.focus();
-    };
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -40,8 +36,15 @@ export default function TerminalWindow() {
         }
     }, [isComplete]);
 
+    const focusInput = () => {
+        if (isComplete && inputRef.current) {
+            inputRef.current.focus();
+        }
+    };
+
     const handleCommand = (command: string) => {
         const cmd = command.toLowerCase().trim();
+        if (!cmd) return;
         let output: string | React.ReactNode = "";
 
         switch (cmd) {
@@ -99,8 +102,8 @@ export default function TerminalWindow() {
 
     return (
         <div
-            className="glass-card overflow-hidden max-w-2xl w-full terminal-scanlines cursor-text relative z-20"
-            onClick={handleFocus}
+            className="glass-card max-w-2xl w-full terminal-scanlines cursor-text relative"
+            onClick={focusInput}
         >
             <div className="flex items-center gap-2 px-3 md:px-4 py-2.5 md:py-3 bg-surface border-b border-border">
                 <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#FF5F56]" />
@@ -111,7 +114,7 @@ export default function TerminalWindow() {
 
             <div
                 ref={scrollRef}
-                className="p-4 md:p-5 font-jetbrains text-xs md:text-sm lg:text-base leading-relaxed h-[220px] md:h-[250px] overflow-y-auto scrollbar-none relative z-10"
+                className="p-4 md:p-5 font-jetbrains text-xs md:text-sm lg:text-base leading-relaxed h-[220px] md:h-[250px] overflow-y-auto scrollbar-none relative z-[2]"
             >
                 {displayedLines.map((line, index) => (
                     <div key={`init-${index}`} className="text-accent-green">{line}</div>
@@ -119,32 +122,29 @@ export default function TerminalWindow() {
 
                 {history.map((item, index) => (
                     <div key={`hist-${index}`} className="mt-2">
-                        <div className="flex text-accent-blue">
-                            <span>$ {item.command}</span>
-                        </div>
+                        <div className="text-accent-blue">$ {item.command}</div>
                         <div className="mt-1 text-text-primary opacity-90">{item.output}</div>
                     </div>
                 ))}
 
                 {isComplete && (
-                    <div className="flex items-center mt-2 text-accent-blue relative">
+                    <div className="flex items-center mt-2 text-accent-blue">
                         <span className="shrink-0">$ </span>
-                        <div className="flex-1 ml-2 relative min-h-[1.5em] flex items-center">
+                        <div className="flex-1 ml-1 relative min-h-[1.5em] flex items-center">
                             <input
                                 ref={inputRef}
                                 type="text"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={onKeyDown}
-                                autoFocus
-                                className="absolute inset-0 w-full bg-transparent border-none outline-none text-text-primary caret-transparent z-10"
+                                className="absolute inset-0 w-full bg-transparent border-none outline-none text-transparent caret-transparent z-10"
+                                style={{ font: "inherit", fontSize: "inherit" }}
                                 spellCheck={false}
                                 autoComplete="off"
+                                aria-label="Terminal command input"
                             />
-                            <div className="flex items-center pointer-events-none">
-                                <span className="text-text-primary whitespace-pre">{inputValue}</span>
-                                <span className="w-2 h-4 md:w-2.5 md:h-5 bg-accent-blue animate-pulse ml-0.5" />
-                            </div>
+                            <span className="text-text-primary whitespace-pre">{inputValue}</span>
+                            <span className="w-2 h-4 md:w-2.5 md:h-5 bg-accent-blue animate-pulse ml-px inline-block" />
                         </div>
                     </div>
                 )}
