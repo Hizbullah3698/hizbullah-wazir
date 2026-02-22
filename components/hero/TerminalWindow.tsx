@@ -34,6 +34,12 @@ export default function TerminalWindow() {
         }
     }, [history, displayedLines]);
 
+    useEffect(() => {
+        if (isComplete && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isComplete]);
+
     const handleCommand = (command: string) => {
         const cmd = command.toLowerCase().trim();
         let output: string | React.ReactNode = "";
@@ -93,7 +99,7 @@ export default function TerminalWindow() {
 
     return (
         <div
-            className="glass-card overflow-hidden max-w-2xl w-full terminal-scanlines cursor-text"
+            className="glass-card overflow-hidden max-w-2xl w-full terminal-scanlines cursor-text relative z-20"
             onClick={handleFocus}
         >
             <div className="flex items-center gap-2 px-3 md:px-4 py-2.5 md:py-3 bg-surface border-b border-border">
@@ -105,7 +111,7 @@ export default function TerminalWindow() {
 
             <div
                 ref={scrollRef}
-                className="p-4 md:p-5 font-jetbrains text-xs md:text-sm lg:text-base leading-relaxed h-[220px] md:h-[250px] overflow-y-auto scrollbar-none relative z-0"
+                className="p-4 md:p-5 font-jetbrains text-xs md:text-sm lg:text-base leading-relaxed h-[220px] md:h-[250px] overflow-y-auto scrollbar-none relative z-10"
             >
                 {displayedLines.map((line, index) => (
                     <div key={`init-${index}`} className="text-accent-green">{line}</div>
@@ -121,19 +127,25 @@ export default function TerminalWindow() {
                 ))}
 
                 {isComplete && (
-                    <div className="flex items-center mt-2 text-accent-blue">
+                    <div className="flex items-center mt-2 text-accent-blue relative">
                         <span className="shrink-0">$ </span>
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={onKeyDown}
-                            autoFocus
-                            className="bg-transparent border-none outline-none flex-1 ml-2 text-text-primary caret-accent-blue"
-                            spellCheck={false}
-                            autoComplete="off"
-                        />
+                        <div className="flex-1 ml-2 relative min-h-[1.5em] flex items-center">
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyDown={onKeyDown}
+                                autoFocus
+                                className="absolute inset-0 w-full bg-transparent border-none outline-none text-text-primary caret-transparent z-10"
+                                spellCheck={false}
+                                autoComplete="off"
+                            />
+                            <div className="flex items-center pointer-events-none">
+                                <span className="text-text-primary whitespace-pre">{inputValue}</span>
+                                <span className="w-2 h-4 md:w-2.5 md:h-5 bg-accent-blue animate-pulse ml-0.5" />
+                            </div>
+                        </div>
                     </div>
                 )}
 
