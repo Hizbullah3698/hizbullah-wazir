@@ -93,6 +93,6 @@ Get a free Gemini API key at [ai.google.dev](https://ai.google.dev/).
 
 ---
 
-**Live Site** → [hizbullahwazir.dev](https://hizbullahwazir.dev)
+**Live Site** → [hizbullah-wazir.vercel.app](https://hizbullah-wazir.vercel.app)
 **LinkedIn** → [linkedin.com/in/hizbullahwazir](https://www.linkedin.com/in/hizbullahwazir)
 **GitHub** → [github.com/Hizbullah3698](https://github.com/Hizbullah3698)
