@@ -17,13 +17,14 @@ Interactive portfolio designed around a VS Code editor metaphor — complete wit
 - **AI Chatbot** — Gemini-powered assistant that answers recruiter questions about skills, experience, and availability
 - **Custom Cursor** — Lerp-smoothed dot with trailing ring that reacts to interactive elements
 - **3D Project Cards** — Perspective tilt following mouse position with radial glare reflection
-- **Terminal Hero** — Typewriter animation in a CRT scan-line terminal window
+- **Interactive Terminal** — Typewriter animation with a functional CLI — type `help`, `about`, `skills`, `projects`, `contact`, `social`, or `clear`
 - **Git Commit Experience** — Timeline styled as `git log --oneline --graph` with pulsing commit dots
 - **Mobile-First Design** — 44px touch targets, responsive layouts from 320px, sidebar drawer on mobile
 - **Scroll Parallax** — Gradient mesh background moves at 30% scroll speed
 - **Magnetic Buttons** — CTA buttons subtly follow cursor with spring physics
 - **Accessibility** — Skip-to-content, ARIA landmarks, keyboard navigation, focus-visible outlines
 - **SEO Optimized** — JSON-LD Person schema, OG image generation, meta tags
+- **Vercel Insights** — Analytics and Speed Insights for production monitoring
 
 ## Tech Stack
 
@@ -34,6 +35,7 @@ Interactive portfolio designed around a VS Code editor metaphor — complete wit
 | Styling | Tailwind CSS 3.4, Framer Motion |
 | AI | Google Gemini API (2.5 Flash Lite) |
 | Fonts | Syne, JetBrains Mono (Google Fonts) |
+| Analytics | Vercel Analytics, Speed Insights |
 | Deployment | Vercel |
 
 ## Local Setup
